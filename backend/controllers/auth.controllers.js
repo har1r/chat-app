@@ -19,29 +19,29 @@ export const signup = async (req, res) => {
         //  HASH PASSWORD HERE
         const salt = await bycrypt.genSalt(10); //the higher that number is, the slower the code will run
         const hashedPassword = await bycrypt.hash(password, salt);
+
         // https://avatar.iran.liara.run/
-        const boyProfilPic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
-        const girlProfilPic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+        const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
+        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
         const newUser = new User({
             fullName,
             username,
             password: hashedPassword,
             gender,
-            profilPic: gender === "male" ? boyProfilPic : girlProfilPic
+            profilePic: gender === "male" ? boyProfilePic : girlProfilePic
         });
 
         if(newUser) {
-            // GENERATE JWT TOKEN HERE
-            // generateTokenAndSetCookie(newUser._id, res);
-            
+            // Generate JWT token here
+			generateTokenAndSetCookie(newUser._id, res);
             await newUser.save();
     
             res.status(201).json({
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 username: newUser.username,
-                profilPic: newUser.profilPic
+                profilePic: newUser.profilePic
             });
         }else {
             res.status(400).json({error: "Invalid user data"});
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
             _id: user._id,
             fullName: user.fullName,
             username: user.username,
-            profilPic: user.profilPic
+            profilePic: user.profilePic
         });
 
     } catch (error) {
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
 export const logout = (req, res) => { 
     try {
         res.cookie("jwt", "", {maxAge: 0});
-        res.status(200).json({message: "Logged out successfully", hasil: "sukses"});
+        res.status(200).json({message: "Logged out successfully"});
     } catch (error) {
         console.log("Error in logout controller", error.message);
         res.status(500).json({error: "Internal Server Error"});

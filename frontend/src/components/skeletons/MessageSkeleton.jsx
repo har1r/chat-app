@@ -1,4 +1,3 @@
-
 const MessageSkeleton = () => {
 	return (
 		<>

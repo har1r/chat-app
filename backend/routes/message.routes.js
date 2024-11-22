@@ -1,6 +1,7 @@
 import express from "express";
 import { getMessage, sendMessage } from "../controllers/message.controllers.js";
-import protectRoute from "../middleware/protectRoute.js"
+import protectRoute from "../middleware/protectRoute.js";
+
 const router = express.Router();
 
 router.get("/:id", protectRoute, getMessage);

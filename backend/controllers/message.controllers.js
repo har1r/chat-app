@@ -34,7 +34,7 @@ export const sendMessage = async (req, res) => {
 
         // this will run in parallel
         await Promise.all([conversation.save(), newMessage.save()]);
-
+        console.log(newMessage)
         res.status(201).json(newMessage);
     } catch (error) {
         console.log("Error in sendMessage controller", error.message);
@@ -45,8 +45,9 @@ export const sendMessage = async (req, res) => {
 export const getMessage = async (req, res) => {
     try {
         const { id: userToChatId } = req.params;
+        console.log(userToChatId)
         const senderId = req.user._id;
-
+        console.log(senderId)
         const conversation = await Conversation.findOne({
             participants: { $all: [senderId, userToChatId]},
         }).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
@@ -56,7 +57,6 @@ export const getMessage = async (req, res) => {
         }
 
         const messages = conversation.messages;
-
         res.status(200).json(messages);
 
     } catch (error) {
