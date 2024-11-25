@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
 const useSignup = () => {
+
 	const [loading, setLoading] = useState(false);
 	const { setAuthUser } = useAuthContext();
 
@@ -11,6 +12,7 @@ const useSignup = () => {
 		if (!success) return;
 
 		setLoading(true);
+
 		try {
 			const res = await fetch("/api/auth/signup", {
 				method: "POST",
@@ -26,8 +28,10 @@ const useSignup = () => {
 			localStorage.setItem("chat-user", JSON.stringify(data));
             //context, ini tetap diperulkan untuk melakuka rerender setaip ada state berubah
 			setAuthUser(data);
+
 		} catch (error) {
 			toast.error(error.message);
+
 		} finally {
 			setLoading(false);
 		}
@@ -35,6 +39,7 @@ const useSignup = () => {
 
 	return { loading, signup };
 };
+
 export default useSignup;
 
 function handleInputErrors({ fullName, username, password, confirmPassword, gender }) {
@@ -54,4 +59,4 @@ function handleInputErrors({ fullName, username, password, confirmPassword, gend
 	}
 
 	return true;
-}
+};
