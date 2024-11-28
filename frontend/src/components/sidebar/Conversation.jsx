@@ -1,8 +1,9 @@
 import useConversation from "../../zustand/useConversation";
 
 const Conversation = ({conversation, lastIdx, emoji}) => {
-
+    //conversation ini sudah menjadi object tunggal karena sudah di map
     const {selectedConversation, setSelectedConversation} = useConversation();
+    //ketika onclick jalan maka selectedConversation akan menunjukkan satu objek yang di klik
     const isSelected = selectedConversation?._id === conversation._id
 
   return (
@@ -15,7 +16,7 @@ const Conversation = ({conversation, lastIdx, emoji}) => {
             <div className='avatar online'>
                 <div className='w-12 rounded-full'>
                     <img 
-                        src={conversation.profilPic} 
+                        src={conversation.profilePic} 
                         alt="user avatar" 
                     />
                 </div>

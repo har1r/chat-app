@@ -8,7 +8,9 @@ const useSendMessage = () => {
     const {messages, setMessages, selectedConversation} = useConversation();
     
     const sendMessage = async (message) => {
+
         setLoading(true);
+
         try {
             const res = await fetch(`/api/messages/send/${selectedConversation._id}`, {
                 method: 'POST',
@@ -17,16 +19,19 @@ const useSendMessage = () => {
                 },
                 body: JSON.stringify({message})
             })
-            const data = await res.json()
-            if(data.error) throw new Error(data.error)
+            const data = await res.json();
+            if(data.error) throw new Error(data.error);
 
-                setMessages([...messages, data.message])
+            setMessages([...messages, data]); //ini tadi data.message makanya dari seminggu kemarin gk bisa-bisa, krn string bukan objek, asuuuu
+
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
+
         } finally {
             setLoading(false)
         }
     }
+
     return {sendMessage, loading}
 }; 
 
